@@ -69,6 +69,7 @@ GEM
     annotate (3.2.0)
       activerecord (>= 3.2, < 8.0)
       rake (>= 10.4, < 14.0)
+    bcrypt (3.1.19)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
     builder (3.2.4)
@@ -84,6 +85,7 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
+    jwt (2.7.1)
     loofah (2.21.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -109,6 +111,7 @@ GEM
     nio4r (2.5.9)
     nokogiri (1.15.4-x86_64-linux)
       racc (~> 1.4)
+    openssl (3.2.0)
     pg (1.5.4)
     puma (5.6.7)
       nio4r (~> 2.0)
@@ -161,9 +164,12 @@ PLATFORMS
 
 DEPENDENCIES
   annotate
+  bcrypt (~> 3.1.7)
   bootsnap
   byebug
   jbuilder
+  jwt
+  openssl
   pg (~> 1.1)
   puma (~> 5.0)
   rack-cors
