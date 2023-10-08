@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_07_020723) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_08_201027) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,58 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_07_020723) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "credit_cards", force: :cascade do |t|
+    t.string "name"
+    t.float "debt"
+    t.float "fee"
+    t.float "space"
+    t.float "payment"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_credit_cards_on_user_id"
+  end
+
+  create_table "credits", force: :cascade do |t|
+    t.string "name"
+    t.float "debt"
+    t.float "fee"
+    t.float "payment"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_credits_on_user_id"
+  end
+
+  create_table "expenses", force: :cascade do |t|
+    t.string "name"
+    t.integer "category"
+    t.float "total"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_expenses_on_user_id"
+  end
+
+  create_table "savings", force: :cascade do |t|
+    t.string "name"
+    t.float "total"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_savings_on_user_id"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.float "value"
+    t.string "description"
+    t.string "transactionable_type", null: false
+    t.bigint "transactionable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["transactionable_type", "transactionable_id"], name: "index_transactions_on_transactionable"
   end
 
   create_table "users", force: :cascade do |t|
@@ -31,4 +83,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_07_020723) do
     t.string "avatar"
   end
 
+  add_foreign_key "credit_cards", "users"
+  add_foreign_key "credits", "users"
+  add_foreign_key "expenses", "users"
+  add_foreign_key "savings", "users"
 end
