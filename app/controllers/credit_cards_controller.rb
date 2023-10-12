@@ -4,7 +4,7 @@ class CreditCardsController < ApplicationController
   # GET /credit_cards
   # GET /credit_cards.json
   def index
-    @credit_cards = CreditCard.all
+    @credit_cards = @current_user.credit_cards
   end
 
   # GET /credit_cards/1
@@ -16,6 +16,7 @@ class CreditCardsController < ApplicationController
   # POST /credit_cards.json
   def create
     @credit_card = CreditCard.new(credit_card_params)
+    @credit_card.user = User.find_by(username: params[:user_username])
 
     if @credit_card.save
       render :show, status: :created, location: @credit_card
@@ -43,11 +44,11 @@ class CreditCardsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_credit_card
-      @credit_card = CreditCard.find(params[:id])
+      @credit_card = @current_user.credit_cards.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def credit_card_params
-      params.require(:credit_card).permit(:name, :debt, :fee, :space, :payment, :user_id)
+      params.require(:credit_card).permit(:name, :debt, :fee, :space, :payment)
     end
 end

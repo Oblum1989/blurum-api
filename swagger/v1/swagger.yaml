@@ -1,0 +1,232 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  /api/v1/users:
+    get:
+      tags:
+        - Users
+      summary: Get a list of users
+      responses:
+        '200':
+          description: A list of users
+    post:
+      tags:
+        - Users
+      summary: Create a new user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                avatar:
+                  type: string
+                name:
+                  type: string
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
+      responses:
+        '201':
+          description: User created
+        '422':
+          description: Invalid request
+
+  /api/v1/users/{username}:
+    get:
+      tags:
+        - Users
+      summary: Get user by username
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  avatar:
+                    type: string
+                  name:
+                    type: string
+                  username:
+                    type: string
+                  email:
+                    type: string
+                  # Add other properties as needed
+        '404':
+          description: User not found
+
+    put:
+      tags:
+        - Users
+      summary: Update user by username
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                avatar:
+                  type: string
+                name:
+                  type: string
+                email:
+                  type: string
+                # Add other properties as needed
+      responses:
+        '200':
+          description: User updated
+        '422':
+          description: Invalid request
+
+    delete:
+      tags:
+        - Users
+      summary: Delete user by username
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: User deleted
+        '404':
+          description: User not found
+  /savings:
+    get:
+      tags:
+        - Savings
+      summary: Get a list of savings
+      responses:
+        '200':
+          description: A list of savings
+
+    post:
+      tags:
+        - Savings
+      summary: Create a new saving
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                total:
+                  type: number
+                user_id:
+                  type: integer
+              required:
+                - name
+                - total
+                - user_id
+      responses:
+        '201':
+          description: Saving created
+        '422':
+          description: Invalid request
+
+  /savings/{id}:
+    get:
+      tags:
+        - Savings
+      summary: Get saving by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Saving found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  total:
+                    type: number
+                  user_id:
+                    type: integer
+                required:
+                  - name
+                  - total
+                  - user_id
+        '404':
+          description: Saving not found
+
+    put:
+      tags:
+        - Savings
+      summary: Update saving by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                total:
+                  type: number
+                user_id:
+                  type: integer
+      responses:
+        '200':
+          description: Saving updated
+        '422':
+          description: Invalid request
+
+    delete:
+      tags:
+        - Savings
+      summary: Delete saving by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Saving deleted
+        '404':
+          description: Saving not found
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com

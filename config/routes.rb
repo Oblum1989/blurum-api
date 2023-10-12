@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
+  mount Rswag::Ui::Engine => '/api-docs'
+  mount Rswag::Api::Engine => '/api-docs'
   resources :expenses
   resources :savings
   resources :credit_cards
   resources :credits
   resources :categories, defaults: { format: :json }
-  resources :users, param: :_username do
+  resources :users, param: :username do
     resources :user_credits, controller: 'credits'
     resources :credit_cards, controller: 'credit_cards'
     resources :savings, controller: 'savings'

@@ -1,10 +1,11 @@
 class CreditsController < ApplicationController
+  before_action :authorize_request
   before_action :set_credit, only: %i[ show update destroy ]
 
   # GET /credits
   # GET /credits.json
   def index
-    @credits = Credit.all
+    @credits = @current_user.credits
   end
 
   # GET /credits/1
@@ -16,7 +17,7 @@ class CreditsController < ApplicationController
   # POST /credits.json
   def create
     @credit = Credit.new(credit_params)
-
+    @credit.user = User.find_by(username: params[:user_username])
     if @credit.save
       render :show, status: :created, location: @credit
     else
@@ -43,11 +44,11 @@ class CreditsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_credit
-      @credit = Credit.find(params[:id])
+      @credit = @current_user.credits.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def credit_params
-      params.require(:credit).permit(:name, :debt, :fee, :payment, :user_id)
+      params.require(:credit).permit(:name, :debt, :fee)
     end
 end

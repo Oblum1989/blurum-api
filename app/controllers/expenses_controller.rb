@@ -4,7 +4,7 @@ class ExpensesController < ApplicationController
   # GET /expenses
   # GET /expenses.json
   def index
-    @expenses = Expense.all
+    @expenses = @current_user.expenses
   end
 
   # GET /expenses/1
@@ -16,6 +16,7 @@ class ExpensesController < ApplicationController
   # POST /expenses.json
   def create
     @expense = Expense.new(expense_params)
+    @expense.user = User.find_by(username: params[:user_username])
 
     if @expense.save
       create_transaction(params[:movement_id])
@@ -44,14 +45,14 @@ class ExpensesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_expense
-      @expense = Expense.find(params[:id])
+      @expense = @current_user.expenses.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       render json: { error: 'Expense not found' }, status: :not_found
     end
 
     # Only allow a list of trusted parameters through.
     def expense_params
-      params.require(:expense).permit(:name, :category, :total, :user_id)
+      params.require(:expense).permit(:name, :category, :total)
     end
 
     def create_transaction(movement_id)

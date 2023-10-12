@@ -4,7 +4,7 @@ class SavingsController < ApplicationController
   # GET /savings
   # GET /savings.json
   def index
-    @savings = Saving.all
+    @savings = @current_user.savings
   end
 
   # GET /savings/1
@@ -16,6 +16,7 @@ class SavingsController < ApplicationController
   # POST /savings.json
   def create
     @saving = Saving.new(saving_params)
+    @saving.user = User.find_by(username: params[:user_username])
 
     if @saving.save
       render :show, status: :created, location: @saving
@@ -43,11 +44,11 @@ class SavingsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_saving
-      @saving = Saving.find(params[:id])
+      @saving = @current_user.savings.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def saving_params
-      params.require(:saving).permit(:name, :total, :user_id)
+      params.require(:saving).permit(:name, :total)
     end
 end
