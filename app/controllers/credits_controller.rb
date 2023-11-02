@@ -34,8 +34,8 @@ class CreditsController < ApplicationController
       render json: @credit.errors, status: :unprocessable_entity
     end
   end
-
   # DELETE /credits/1
+
   # DELETE /credits/1.json
   def destroy
     @credit.destroy
@@ -47,7 +47,6 @@ class CreditsController < ApplicationController
       @credit = @current_user.credits.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
     def credit_params
       params.require(:credit).permit(:name, :debt, :fee)
     end

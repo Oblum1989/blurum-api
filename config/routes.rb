@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :credits
   resources :categories, defaults: { format: :json }
   resources :users, param: :username do
-    resources :user_credits, controller: 'credits'
+    resources :credits, controller: 'credits'
     resources :credit_cards, controller: 'credit_cards'
     resources :savings, controller: 'savings'
     resources :expenses, controller: 'expenses'

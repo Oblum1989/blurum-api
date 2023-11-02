@@ -1,4 +1,5 @@
 class CreditCardsController < ApplicationController
+  before_action :authorize_request
   before_action :set_credit_card, only: %i[ show update destroy ]
 
   # GET /credit_cards

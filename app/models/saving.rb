@@ -23,5 +23,6 @@ class Saving < ApplicationRecord
 
   def create_transaction(total, description)
     transactions.create(value: total, description: description)
+    self.update(total: self.total - total)
   end
 end

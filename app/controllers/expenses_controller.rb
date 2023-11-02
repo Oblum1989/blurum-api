@@ -1,4 +1,5 @@
 class ExpensesController < ApplicationController
+  before_action :authorize_request
   before_action :set_expense, only: %i[ show update destroy ]
 
   # GET /expenses

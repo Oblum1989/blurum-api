@@ -26,5 +26,6 @@ class CreditCard < ApplicationRecord
 
   def create_transaction(total, description)
     transactions.create(value: total, description: description)
+    self.update(debt: self.debt - total, payment: total)
   end
 end
